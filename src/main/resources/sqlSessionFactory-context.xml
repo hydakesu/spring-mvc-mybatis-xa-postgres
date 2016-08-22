@@ -14,14 +14,26 @@
     
 	<description>MyBatis为不同的mapper注入sqlSessionFactory</description>
 	
-    <!-- Mapper的管理及注入 -->
+    <!-- Mapper的管理及注入  dao文件只能一个一个注入，非常麻烦，废止
     <bean id="rc1Mapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="sqlSessionFactory" ref="rc1SqlSessionFactory" />
-        <property name="mapperInterface" value="com.demo.dao.rc1DataSourceDao.Rc1TableDao" />
+        <property name="mapperInterface" value="com.demo.dao.rc1DataSourceDao.Rc1TableDao" /> 
     </bean>
-       
+    
     <bean id="demoMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="sqlSessionFactory" ref="demoSqlSessionFactory" />
-        <property name="mapperInterface" value="com.demo.dao.demoDataSourceDao.DemoTableDao" />
+        <property name="mapperInterface" value="com.demo.dao.demoDataSourceDao.DemoTableDao" /> 
+    </bean>
+    -->
+    
+    <!-- Mapper的管理及注入  根据指定路径扫描注入，有多少文件都不怕。 sqlSessionFactoryBeanName：如果只有一个数据源，可以不指定。 -->
+    <bean id="rc1Mapper" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="rc1SqlSessionFactory" />
+        <property name="basePackage" value="com.demo.dao.rc1DataSourceDao" /> 
+    </bean>
+    
+    <bean id="demoMapper" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="demoSqlSessionFactory" />
+        <property name="basePackage" value="com.demo.dao.demoDataSourceDao" /> 
     </bean>
 </beans>

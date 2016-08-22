@@ -3,8 +3,10 @@
 <configuration>
     <typeAliases>
         <typeAlias alias="Rc1"  type="com.demo.entity.rc1DataSourceEntity.Config"/>
+        <typeAlias alias="Rc2"  type="com.demo.entity.rc1DataSourceEntity.Config2"/>
     </typeAliases>
     <mappers>
         <mapper resource="mapper/rc1/Rc1Mapper.xml" />
+        <mapper resource="mapper/rc1/Rc2Mapper.xml" />
     </mappers>
 </configuration> 

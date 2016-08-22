@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.dao.demoDataSourceDao.Demo1TableDao">
+
+	<resultMap type="Demo1" id="demo1Result">
+		<id property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="org" column="org"/>
+	</resultMap>
+	
+	<select id="getAllDemo1" resultMap="demo1Result">
+		select id, name, org from demo1table
+	</select>
+
+	<insert id="addDemo1" parameterType="Demo1">
+		insert into demo1table(id, name, org) values(#{id},#{name},#{org})
+	</insert>
+	
+	<delete id="delDemo1">
+		delete from demo1table
+	</delete>
+
+</mapper>

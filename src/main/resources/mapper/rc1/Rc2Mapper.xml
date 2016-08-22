@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.dao.rc1DataSourceDao.Rc2TableDao">
+
+	<resultMap type="Rc2" id="config2Result">
+		<id property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="org" column="org"/>
+	</resultMap>
+
+	
+	<select id="getAllRc2" resultMap="config2Result">
+		select id, name, org from rc2table
+	</select>
+
+	<insert id="addRc2" parameterType="Rc2">
+		insert into rc2table(id, name, org) values(#{id},#{name},#{org})
+	</insert>
+
+	<delete id="delDemo1">
+		delete from rc2table
+	</delete>
+</mapper>
