@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">  
+<configuration>
+    <typeAliases>
+        <typeAlias alias="Rc1"  type="com.demo.entity.rc1DataSourceEntity.Config"/>
+    </typeAliases>
+    <mappers>
+        <mapper resource="mapper/rc1/Rc1Mapper.xml" />
+    </mappers>
+</configuration> 

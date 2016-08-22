@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns= "http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context= "http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd" >
+    
+	<description>配置事物</description>  
+    <!-- atomikos事务管理器 -->  
+    <bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">  
+        <property name="forceShutdown">  
+            <value>true</value>  
+        </property>  
+    </bean>  
+   
+    <bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp">  
+        <property name="transactionTimeout" value="300" />  
+    </bean>
+    
+    <!-- spring 事务管理器 -->    
+    <bean id="springTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">  
+        <property name="transactionManager" ref="atomikosTransactionManager" />  
+        <property name="userTransaction" ref="atomikosUserTransaction" />  
+        <!-- 必须设置，否则程序出现异常 JtaTransactionManager does not support custom isolation levels by default -->  
+        <property name="allowCustomIsolationLevels" value="true"/>   
+    </bean>  
+    
+    <!-- 使用AOP来声明事务 -->
+    <aop:config  proxy-target-class="true">
+        <!-- 第一个* 代表返回值, 第二个代表子包下的子类, (..) 代表方法参数 -->
+        <aop:pointcut expression="execution(* com.demo.service..*.*(..))" id="txPointcut"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+    </aop:config>  
+    
+    <tx:advice id="txAdvice" transaction-manager="springTransactionManager">  
+        <tx:attributes>  
+            <tx:method name="get*"  propagation="REQUIRED"  read-only="true" />  <!-- REQUIRED：支持当前事务，如果当前没有事务，就新建一个事务。这是最常见的选择 -->
+            <tx:method name="find*"  propagation="REQUIRED"  read-only="true" />  
+            <tx:method name="has*"  propagation="REQUIRED"  read-only="true" />  
+            <tx:method name="locate*"  propagation="REQUIRED"  read-only="true" />  
+            <tx:method name="register*" propagation="REQUIRED" rollback-for="java.lang.Exception" />  
+        </tx:attributes>  
+    </tx:advice> 
+	<!-- 
+	下面是Spring中Propagation类的事务属性详解： 
+	REQUIRED：支持当前事务，如果当前没有事务，就新建一个事务。这是最常见的选择。 
+	SUPPORTS：支持当前事务，如果当前没有事务，就以非事务方式执行。 
+	MANDATORY：支持当前事务，如果当前没有事务，就抛出异常。 
+	REQUIRES_NEW：新建事务，如果当前存在事务，把当前事务挂起。 
+	NOT_SUPPORTED：以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。 
+	NEVER：以非事务方式执行，如果当前存在事务，则抛出异常。 
+	NESTED：支持当前事务，如果当前事务存在，则执行一个嵌套事务，如果当前没有事务，就新建一个事务
+	-->
+	
+</beans>
