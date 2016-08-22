@@ -22,7 +22,6 @@
        
     <bean id="demoMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="sqlSessionFactory" ref="demoSqlSessionFactory" />
-        <!-- <property name="mapperInterface" value="com.demo.dao.demoDataSourceDao.DemoTableDao" /> -->
-        <property name="mapperInterface" value="classpath*:mapper/user/*.xml" />
+        <property name="mapperInterface" value="com.demo.dao.demoDataSourceDao.DemoTableDao" />
     </bean>
 </beans>
