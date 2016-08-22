@@ -1,16 +1,15 @@
-CREATE SCHEMA `db1` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+##DB1
+CREATE TABLE rc1table
+(
+  id bigint NOT NULL,
+  name character(45),
+  CONSTRAINT config_key_1 PRIMARY KEY (id)
+)
 
- CREATE  TABLE `db1`.`config` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT ,
-  `name` VARCHAR(45) NULL ,
-  PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) );
-  
-  
-CREATE SCHEMA `db2` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
-
- CREATE  TABLE `db2`.`user` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT ,
-  `name` VARCHAR(45) NULL ,
-  PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) );
+##DB2
+CREATE TABLE demotable
+(
+  id bigint NOT NULL,
+  name character(45),
+  CONSTRAINT userdemo_key_1 PRIMARY KEY (id)
+)
